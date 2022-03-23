@@ -1,0 +1,60 @@
+#combat,
+#combat-popout {
+  &.dynamic-initiative {
+    #combat-round {
+      .encounters {
+        .combat-control[data-control="toggleSceneLink"] {
+          order: -1;
+        }
+
+        .encounter-title {
+          margin-left: 0;
+        }
+      }
+    }
+
+    #combat-tracker {
+      display: flex;
+      flex-direction: column;
+
+      .combatant {
+        &.dummy-combatant {
+          display: none;
+        }
+
+        &.defeated {
+          order: 1;
+        }
+
+        &.past-turn {
+          .token-initiative .combatant-control {
+            color: #dcdcdc;
+            opacity: 0.2;
+          }
+        }
+
+        &.active-turn {
+          .token-initiative .combatant-control {
+            color: #ffffff;
+          }
+        }
+
+        &.npc {
+          .token-initiative .combatant-control {
+            color: #d98f30;
+          }
+        }
+
+        &.player {
+          .token-initiative .combatant-control {
+            color: #44abe0;
+          }
+        }
+
+        .token-initiative .combatant-control {
+          font-size: 26px;
+        }
+      }
+    }
+  }
+}

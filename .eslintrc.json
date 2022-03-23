@@ -1,0 +1,21 @@
+{
+  "env": {
+    "browser": true,
+    "es2017": true,
+    "node": true
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module",
+    "requireConfigFile": false
+  },
+  "extends": ["eslint:recommended", "prettier"],
+  "rules": {
+    "no-undef": "off",
+    "no-unused-vars": [
+      "error",
+      { "destructuredArrayIgnorePattern": "^_", "argsIgnorePattern": "^_" }
+    ]
+  }
+}
