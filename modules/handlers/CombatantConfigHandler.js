@@ -20,6 +20,9 @@ export default class CombatantConfigHandler {
   static async _render(wrapped, ...args) {
     await wrapped(...args);
 
+    const rendered = this.rendered;
+    if (!rendered) return;
+
     const html = this.element[0];
 
     const initiativeInput = html.querySelector('input[name="initiative"]');

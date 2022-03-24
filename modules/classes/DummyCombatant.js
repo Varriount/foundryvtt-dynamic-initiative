@@ -68,6 +68,7 @@ export default class DummyCombatant extends Combatant {
       type: "npc",
       img: this.IMAGE_PATH,
       folder: folder.id,
+      data: { ["attributes.hp.formula"]: 1 },
       flags: { [`${CONSTANTS.MODULE_NAME}.isDummy`]: true }
     });
   }

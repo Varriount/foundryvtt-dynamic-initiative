@@ -39,8 +39,9 @@ export default class CombatTrackerHandler {
   static async _render(wrapped, ...args) {
     await wrapped(args);
 
+    const rendered = this.rendered;
     const combat = this.viewed;
-    if (!combat) return;
+    if (!rendered || !combat) return;
 
     const html = this.element[0];
     html.classList.add("dynamic-initiative");

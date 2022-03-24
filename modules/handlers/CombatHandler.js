@@ -13,8 +13,8 @@ export default class CombatHandler {
 
   /** Register the necessary wrappers */
   static registerWrappers() {
-    wrap("Combat.prototype._preCreate", this._preCreate);
-    wrap("Combat.prototype._preDelete", this._preDelete);
+    wrap("Combat.prototype._onCreate", this._onCreate);
+    wrap("Combat.prototype._onDelete", this._onDelete);
     wrap("Combat.prototype._onCreateEmbeddedDocuments", this._onCreateEmbeddedDocuments);
     wrap("Combat.prototype.startCombat", this.startCombat);
     wrap("Combat.prototype.nextRound", this.nextRound);
@@ -26,14 +26,17 @@ export default class CombatHandler {
    * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    */
-  static async _preCreate(wrapped, ...args) {
+  static async _onCreate(wrapped, ...args) {
+    wrapped(...args);
+    const [_data, _options, userId] = args;
+
+    if (game.users.current.id !== userId) return;
+
     const dummyCombatant = await DummyCombatant.build(this);
     const combatants = this.combatants.map((combatant) => combatant.toObject());
 
     combatants.push(dummyCombatant.toObject());
     this.data.update({ combatants });
-
-    wrapped(...args);
   }
 
   /**
@@ -41,7 +44,12 @@ export default class CombatHandler {
    * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    */
-  static async _preDelete(wrapped, ...args) {
+  static async _onDelete(wrapped, ...args) {
+    wrapped(...args);
+    const [_options, userId] = args;
+
+    if (game.users.current.id !== userId) return;
+
     const dummyCombatants = this.combatants.filter(
       (combatant) => combatant.data.flags?.[CONSTANTS.MODULE_NAME]?.isDummy && combatant.token
     );
@@ -51,8 +59,6 @@ export default class CombatHandler {
         .get(combatant.data.sceneId)
         .deleteEmbeddedDocuments("Token", [combatant.data.tokenId]);
     }
-
-    wrapped(...args);
   }
 
   /**
