@@ -15,8 +15,7 @@ export default class TokenLayerHandler {
 
   /**
    * Pevent a dummy token to be deleted
-   *
-   * @param {function} wrapped The wrapped function
+   * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    */
   static async _onDeleteKey(wrapped, ...args) {

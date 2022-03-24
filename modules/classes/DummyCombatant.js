@@ -3,7 +3,7 @@ import CONSTANTS from "../shared/constants.js";
 /**
  * Description for a dummy combatant
  *
- * @augments {Combatant}
+ * @extends {Combatant}
  */
 export default class DummyCombatant extends Combatant {
   /** @type {string} */
@@ -17,7 +17,6 @@ export default class DummyCombatant extends Combatant {
 
   /**
    * Create a dummy actor and a dummy token on a scene an returns a dummy combatant link to those
-   *
    * @param {Combat} combat The combat for which to create a dummy combatant
    * @returns {Promise<Combatant>} The created dummy combatant
    */
@@ -40,7 +39,6 @@ export default class DummyCombatant extends Combatant {
 
   /**
    * Search for an existing actor (creates it if none) then creates a new dummy token
-   *
    * @param {Combat} combat
    * @returns {Promise<Token>} The created dummy token
    */
@@ -56,7 +54,6 @@ export default class DummyCombatant extends Combatant {
 
   /**
    * Search for an existing folder (creates it if none) then creates a new dummy actor
-   *
    * @returns {Promise<Actor>} The created dummy actor
    */
   static async _createActor() {
@@ -77,7 +74,6 @@ export default class DummyCombatant extends Combatant {
 
   /**
    * Creates a folder that will contains the dummy actor
-   *
    * @returns {Promise<Folder>} The created folder
    */
   static async _createFolder() {
@@ -89,7 +85,6 @@ export default class DummyCombatant extends Combatant {
 
   /**
    * Creates a dummy token on the requested scene
-   *
    * @param {Actor} actor The actor from which to create the token
    * @param {Combat} combat The combat for which to create the token
    * @returns {Promise<Token>} The created dummy token

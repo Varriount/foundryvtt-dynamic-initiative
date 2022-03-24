@@ -4,7 +4,9 @@ import { determineCombatInitiatives, wrap } from "../shared/helpers.js";
 
 /** Handles the combat capabilities */
 export default class CombatHandler {
-  /** Kickstart the features of this class */
+  /**
+   * Kickstart the features of this class
+   */
   static init() {
     this.registerWrappers();
   }
@@ -21,8 +23,7 @@ export default class CombatHandler {
 
   /**
    * Creates a dummy combatant after a combat is created
-   *
-   * @param {function} wrapped The wrapped function
+   * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    */
   static async _preCreate(wrapped, ...args) {
@@ -37,8 +38,7 @@ export default class CombatHandler {
 
   /**
    * Deletes the bound dummy token (if it exists) after a combat is deleted
-   *
-   * @param {function} wrapped The wrapped function
+   * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    */
   static async _preDelete(wrapped, ...args) {
@@ -57,8 +57,7 @@ export default class CombatHandler {
 
   /**
    * Reset the initiative of every combatants below the PC INITIATOIVE when a combatant is added
-   *
-   * @param {function} wrapped The wrapped function
+   * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    */
   static _onCreateEmbeddedDocuments(wrapped, ...args) {
@@ -75,8 +74,7 @@ export default class CombatHandler {
 
   /**
    * Reset the initiative of every combatants below the ACTIVE_INITIATIVE after starting a combat
-   *
-   * @param {function} wrapped The wrapped function
+   * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    */
   static async startCombat(wrapped, ...args) {
@@ -89,9 +87,8 @@ export default class CombatHandler {
   }
 
   /**
-   * Reset the initiative of every combatants below the ACTIVE_INITIATIVE after next round event
-   *
-   * @param {function} wrapped The wrapped function
+   * Reset the initiative of every combatants below the ACTIVE_INITIATIVE after next round
+   * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    */
   static async nextRound(wrapped, ...args) {
@@ -104,9 +101,8 @@ export default class CombatHandler {
   }
 
   /**
-   * Q Reset the initiative of every combatants below the ACTIVE_INITIATIVE after previous round event
-   *
-   * @param {function} wrapped The wrapped function
+   * Reset the initiative of every combatants below the ACTIVE_INITIATIVE after previous round
+   * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    */
   static async previousRound(wrapped, ...args) {

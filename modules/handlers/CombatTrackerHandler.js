@@ -16,8 +16,7 @@ export default class CombatTrackerHandler {
 
   /**
    * Change the context entries to remove some unsuitable options
-   *
-   * @param {function} wrapped The wrapped function
+   * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    * @returns {object[]} The context entries
    */
@@ -34,8 +33,7 @@ export default class CombatTrackerHandler {
 
   /**
    * Modify the html once it has been render to add capabilities
-   *
-   * @param {function} wrapped The wrapped function
+   * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    */
   static async _render(wrapped, ...args) {
@@ -54,7 +52,6 @@ export default class CombatTrackerHandler {
 
   /**
    * Update the top side of the combat tracker ui
-   *
    * @param {Combat} combat The current combat
    * @param {jQuery} html The tracker HTMLElement as a jQuery object
    */
@@ -68,7 +65,6 @@ export default class CombatTrackerHandler {
 
   /**
    * Update the bottom side of the combat tracker ui
-   *
    * @param {Combat} combat The current combat
    * @param {jQuery} html The tracker HTMLElement as a jQuery object
    */
@@ -81,7 +77,6 @@ export default class CombatTrackerHandler {
 
   /**
    * Update the body of the combat tracker ui and add buttons
-   *
    * @param {Combat} combat The current combat
    * @param {jQuery} html The tracker HTMLElement as a jQuery object
    */
@@ -126,7 +121,6 @@ export default class CombatTrackerHandler {
 
   /**
    * Generate a specific type of button: cancel turn
-   *
    * @param {Combatant} combatant The combatant for which generate a button
    * @returns {HTMLElement} The button being generated
    */
@@ -136,7 +130,6 @@ export default class CombatTrackerHandler {
 
   /**
    * Generate a specific type of button: active action
-   *
    * @param {Combatant} combatant The combatant for which generate a button
    * @returns {HTMLElement} The button being generated
    */
@@ -149,7 +142,6 @@ export default class CombatTrackerHandler {
 
   /**
    * Generate a specific type of button: take action
-   *
    * @param {Combatant} combatant The combatant for which generate a button
    * @returns {HTMLElement} The button being generated
    */
@@ -159,12 +151,11 @@ export default class CombatTrackerHandler {
 
   /**
    * Generate an action button based on the arguments supplied
-   *
    * @param {Combatant} combatant The combatant for which generate a button
    * @param {object} options Options to supply
    * @param {string} [options.action] The type of button action
    * @param {string} [options.iconClass] The associated icon
-   * @returns {HTMLElement} The button being generated
+   * @returns {HTMLElement} The generated button
    */
   static _createActionButton(combatant, { action = "", iconClass = "" }) {
     const button = game.user.isGM ? document.createElement("a") : document.createElement("div");

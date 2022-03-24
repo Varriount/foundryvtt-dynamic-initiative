@@ -2,16 +2,15 @@ import CONSTANTS from "./constants.js";
 
 /**
  * Preprend logged message with tha module title
- *
  * @param {string} msg Message to print
+ * @returns {void}
  */
 export const logger = (msg) => console.log(`${CONSTANTS.MODULE_TITLE} | ${msg}`);
 
 /**
  * Wrap a property or a method with Libwrapper (libWrapper.WRAPPER).
- *
  * @param {string} target Path to the target method or property
- * @param {function} fn Callback function to execute
+ * @param {Function} fn Callback function to execute
  * @returns {number} Unique numeric "target" identifier
  */
 export const wrap = (target, fn) =>
@@ -19,7 +18,6 @@ export const wrap = (target, fn) =>
 
 /**
  * Determine the iniative for each combatant under an iniative threshold
- *
  * @param {Combat} combat Combat including combatant for which to determine initiative
  * @param {object} options Additional options which customize the method to determine initiative
  * @param {number} [options.threshold] Threshold above which the combatants won't be processed
@@ -37,7 +35,9 @@ export const determineCombatInitiatives = (
       name: combatant.actor.name,
       hasPlayerOwner: combatant.hasPlayerOwner
     }))
-    .sort((a, b) => +b.hasPlayerOwner - +a.hasPlayerOwner || a.name.localeCompare(b.name));
+    .sort(
+      (a, b) => Number(b.hasPlayerOwner) - Number(a.hasPlayerOwner) || a.name.localeCompare(b.name)
+    );
 
   for (const combatant of combatants) {
     if (combatant.flags?.[CONSTANTS.MODULE_NAME]?.isDummy) continue;

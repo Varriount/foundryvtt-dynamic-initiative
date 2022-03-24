@@ -14,8 +14,7 @@ export default class CombatantConfigHandler {
 
   /**
    * Will remove disable the iniative field
-   *
-   * @param {function} wrapped The wrapped function
+   * @param {Function} wrapped The wrapped function
    * @param {...any} args The arguments bound to the wrapped function
    */
   static async _render(wrapped, ...args) {
