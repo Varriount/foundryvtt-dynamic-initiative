@@ -36,7 +36,7 @@ export default class CombatHandler {
     const combatants = this.combatants.map((combatant) => combatant.toObject());
 
     combatants.push(dummyCombatant.toObject());
-    this.data.update({ combatants });
+    this.update({ combatants });
   }
 
   /**

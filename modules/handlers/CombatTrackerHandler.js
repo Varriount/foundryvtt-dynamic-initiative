@@ -86,6 +86,8 @@ export default class CombatTrackerHandler {
 
     for (const [index, combatant] of combat.turns.entries()) {
       const li = tracker.querySelector(`.combatant[data-combatant-id="${combatant.id}"]`);
+      if (!li) continue;
+
       const tokenInit = li.querySelector(".token-initiative");
       let button;
 
