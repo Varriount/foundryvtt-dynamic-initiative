@@ -17,6 +17,21 @@ export const wrap = (target, fn) =>
   libWrapper.register(CONSTANTS.MODULE_NAME, target, fn, libWrapper.WRAPPER);
 
 /**
+ * Reset the alpha and initiative for each combatant under an iniative threshold
+ * @param {Combat} combat Combat including combatant for which to determine initiative
+ * @param {object} options Additional options which customize the method to determine initiative
+ * @param {number} [options.threshold] Threshold above which the combatants won't be processed
+ * @returns {object[]} Collection of objects describing the processed combatants
+ */
+export const resetIniative = async (
+  combat,
+  { threshold = CONSTANTS.INITIATIVE.ACTIVE_INITIATIVE } = {}
+) => {
+  await resetAlpha(combat, { threshold });
+  return determineCombatInitiatives(combat, { threshold });
+};
+
+/**
  * Determine the iniative for each combatant under an iniative threshold
  * @param {Combat} combat Combat including combatant for which to determine initiative
  * @param {object} options Additional options which customize the method to determine initiative
@@ -64,4 +79,29 @@ export const determineCombatInitiatives = (
   }
 
   return updates;
+};
+
+/**
+ * Reset the alpha each combatant under an iniative threshold
+ * @param {Combat} combat Combat including combatant for which to determine initiative
+ * @param {object} options Additional options which customize the method to determine initiative
+ * @param {number} [options.threshold] Threshold above which the combatants won't be processed
+ */
+export const resetAlpha = async (
+  combat,
+  { threshold = CONSTANTS.INITIATIVE.ACTIVE_INITIATIVE } = {}
+) => {
+  const updates = [];
+
+  for (const combatant of combat.combatants) {
+    if (combatant.flags?.[CONSTANTS.MODULE_NAME]?.isDummy) continue;
+    if (combatant.initiative > threshold) continue;
+
+    updates.push({
+      _id: combatant.token.id,
+      alpha: 1
+    });
+  }
+
+  await combat.scene.updateEmbeddedDocuments("Token", updates);
 };

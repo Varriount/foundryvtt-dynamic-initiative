@@ -1,6 +1,6 @@
 import DummyCombatant from "../classes/DummyCombatant.js";
 import CONSTANTS from "../shared/constants.js";
-import { determineCombatInitiatives, wrap } from "../shared/helpers.js";
+import { determineCombatInitiatives, resetAlpha, resetIniative, wrap } from "../shared/helpers.js";
 
 /** Handles the combat capabilities */
 export default class CombatHandler {
@@ -19,6 +19,7 @@ export default class CombatHandler {
     wrap("Combat.prototype.startCombat", this.startCombat);
     wrap("Combat.prototype.nextRound", this.nextRound);
     wrap("Combat.prototype.previousRound", this.previousRound);
+    wrap("Combat.prototype.endCombat", this.endCombat);
   }
 
   /**
@@ -86,10 +87,10 @@ export default class CombatHandler {
   static async startCombat(wrapped, ...args) {
     await wrapped(...args);
 
-    const updates = determineCombatInitiatives(this, {
-      threshold: CONSTANTS.INITIATIVE.PC_INITIATIVE
+    const updates = await resetIniative(this, {
+      threshold: CONSTANTS.INITIATIVE.ACTIVE_INITIATIVE
     });
-    return await this.updateEmbeddedDocuments("Combatant", updates);
+    await this.updateEmbeddedDocuments("Combatant", updates);
   }
 
   /**
@@ -100,8 +101,8 @@ export default class CombatHandler {
   static async nextRound(wrapped, ...args) {
     await wrapped(...args);
 
-    const updates = determineCombatInitiatives(this, {
-      threshold: CONSTANTS.INITIATIVE.PC_INITIATIVE
+    const updates = await resetIniative(this, {
+      threshold: CONSTANTS.INITIATIVE.ACTIVE_INITIATIVE
     });
     await this.updateEmbeddedDocuments("Combatant", updates);
   }
@@ -114,9 +115,27 @@ export default class CombatHandler {
   static async previousRound(wrapped, ...args) {
     await wrapped(...args);
 
-    const updates = determineCombatInitiatives(this, {
-      threshold: CONSTANTS.INITIATIVE.PC_INITIATIVE
+    const updates = await resetIniative(this, {
+      threshold: CONSTANTS.INITIATIVE.ACTIVE_INITIATIVE
     });
     await this.update({ turn: 0, combatants: updates });
+  }
+
+  /**
+   * Reset the initiative of every combatants below the ACTIVE_INITIATIVE after ending a combat
+   * @param {Function} wrapped The wrapped function
+   * @param {...any} args The arguments bound to the wrapped function
+   * @returns {Promise<Combat>} The combat just deleted
+   */
+  static async endCombat(wrapped, ...args) {
+    const result = await wrapped(...args);
+
+    if (result) {
+      await resetAlpha(this, {
+        threshold: CONSTANTS.INITIATIVE.ACTIVE_INITIATIVE
+      });
+    }
+
+    return result;
   }
 }
